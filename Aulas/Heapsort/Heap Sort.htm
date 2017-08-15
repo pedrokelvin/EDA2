@@ -1,0 +1,667 @@
+
+<!-- saved from url=(0083)http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/Sorting/heapSort.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<title>Heap Sort</title>
+	<meta name="Author" content="Rashid Bin Muhammad">
+
+
+
+
+
+
+
+</head>
+
+
+
+<body background="./Heap Sort_files/Bck2.gif" link="#0000FF" vlink="#0000FF" alink="#FF0000" bodylink="blue">
+
+
+
+<center>
+<p>
+<font size="4">
+<img src="./Heap Sort_files/redline.gif" height="2" width="640"></font></p>
+
+<h2><font size="6">Heap Sort</font></h2>
+
+<p><font size="4"><img src="./Heap Sort_files/redline.gif" height="2" width="640"></font></p>
+</center>
+
+
+
+<p>&nbsp;</p>
+
+
+
+<p><font size="4">The binary heap data structures is an array that can be viewed as a complete 
+binary tree. Each node of the binary tree corresponds to an element of the 
+array. The array is completely filled on all levels except possibly lowest.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap0.gif" width="197" height="129"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">We represent heaps in level order, going from left to right. The 
+array corresponding to the heap above is [25, 13, 17, 5, 8, 3].</font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">The root of the tree A[1] and given index <i>i</i> of a node, the indices of 
+its parent, left child and right child can be computed<br>
+&nbsp;</font></p>
+
+
+
+<blockquote>
+	<blockquote>
+		<blockquote>
+			<p><font size="5">PARENT (<i>i</i>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 
+			<font face="Times New Roman">floor(</font><i>i</i>/2<font face="Symbol">)</font><br>LEFT (<i>i</i>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 2<i>i</i><br>RIGHT (<i>i</i>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 2<i>i</i> + 1</font></p>
+		</blockquote>
+	</blockquote>
+</blockquote>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Let's try these out on a heap to make sure we believe they are 
+correct. Take this heap, </font> </p>
+
+
+
+<p align="center">
+<font size="4">
+<img border="0" src="./Heap Sort_files/heap00.gif" width="224" height="180"></font></p>
+
+
+
+<p>
+<font size="4">which is represented by the array [20, 14, 17, 8, 6, 9, 4, 1].</font></p>
+
+
+
+<p><font size="4">We'll go from the 20 to the 6 first. The index of the 20 is 1. 
+To find the index of the left child, we calculate 1 * 2 = 2. This takes us 
+(correctly) to the 14. Now, we go right, so we calculate 2 * 2 + 1 = 5. This 
+takes us (again, correctly) to the 6.</font></p>
+
+
+
+<p><font size="4">Now let's try going from the 4 to the 20. 4's index is 7. We 
+want to go to the parent, so we calculate 7 / 2 = 3, which takes us to the 17. 
+Now, to get 17's parent, we calculate 3 / 2 = 1, which takes us to the 20.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font size="5" color="#CC0000">Heap Property</font></h3>
+
+
+
+<p><font size="4">In a heap, for every node <i>i </i>other than the root, the value of a node 
+is greater than or equal (at most) to the value of its parent.</font></p>
+<p align="center"><font size="4"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font size="5">A[PARENT (<i>i</i>)] &#8805;<font face="Symbol">
+</font>A[<i>i</i>]</font></p>
+<p><font size="4"><br>
+Thus, the largest element in a heap is stored at the root. </font> </p>
+
+
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><font size="4">Following is an example of Heap:</font></p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap1.gif" width="197" height="129"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">By the <font color="#FF00FF">definition of a heap</font>, all the tree levels are completely filled except 
+possibly for the lowest level, which is filled from the left up to a point. 
+Clearly a heap of height </font><font size="5"> <i>h</i></font><font size="4"> has the minimum number of elements when it has 
+just one node at the lowest level. The levels above the lowest level form a 
+complete binary tree of height </font><font size="5"> <i>h </i>-1</font><font size="4"> and 
+</font><font size="5">2<i><sup>h </sup></i>-1</font><font size="4"> nodes. 
+Hence the minimum number of nodes possible in a heap of height </font>
+<font size="5"> <i>h</i></font><font size="4"> is </font><font size="5">2<i><sup>h</sup></i></font><font size="4">. 
+Clearly a heap of height </font><i><font size="5">h</font></i><font size="4">, has the maximum number of elements when its lowest 
+level is completely filled. In this case the heap is a complete binary tree of 
+height </font><font size="5"> <i>h</i></font><font size="4"> and hence has 
+</font><font size="5">2<i><sup>h+1 </sup></i>-1</font><font size="4"> nodes.</font></p>
+
+
+
+<p><font size="4">Following is <font color="#FF00FF">not a heap</font>, because it only has the heap property - it is not a 
+complete binary tree. Recall that to be complete, a binary tree has to fill up 
+all of its levels with the possible exception of the last one, which must be 
+filled in from the left side.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap2.gif" width="206" height="188"></font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font size="5" color="#CC0000">Height of a node</font></h3>
+
+
+
+<p><font size="4">We define the height of a node in a tree to be a number of edges on the 
+longest simple downward path from a node to a leaf.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Height of a tree</font></h3>
+
+
+
+<p><font size="4">The number of edges on a simple downward path from a root to a leaf. Note 
+that the height of a tree with </font><font size="5"> <i>n</i></font><font size="4"> node is 
+<img border="0" src="./Heap Sort_files/floorL.gif" width="13" height="23" align="middle"></font><font size="5">lg<i> n</i></font><font size="4"><img border="0" src="./Heap Sort_files/floorR.gif" width="11" height="23" align="middle"> 
+which is
+<img border="0" src="./Heap Sort_files/thetaBig.gif" width="15" height="16">(</font><font size="5">lg<i>n</i></font><font size="4">). This implies that an 
+n-element heap has height&nbsp;
+<img border="0" src="./Heap Sort_files/floorL.gif" width="13" height="23" align="middle"></font><font size="5">lg<i> n</i></font><font size="4"><img border="0" src="./Heap Sort_files/floorR.gif" width="11" height="23" align="middle"></font></p>
+
+
+
+<p><font size="4">In order to show this let the height of the <i>n</i>-element heap be <i>h</i>. 
+From the bounds obtained on maximum and minimum number of elements in a heap, we 
+get</font></p>
+<p align="center"><font size="5">2<i><sup>h</sup></i> &#8804; <i>n</i> &#8804; 2<i><sup>h+1</sup></i>-1</font></p>
+
+
+
+<p><font size="4">Where n is the number of elements in a heap.</font></p>
+<p align="center"><font size="5">2<i><sup>h</sup></i> &#8804; <i>n</i> &#8804; 2</font><i><sup><font size="5">h+1</font></sup></i></p>
+
+
+
+<p align="center"><font size="4">Taking logarithms to the base 2</font></p>
+<p align="center"><font size="5"><i>h </i> &nbsp;&#8804;&nbsp; lg<i>n</i>&nbsp; &#8804; <i>&nbsp;h </i>+1</font></p>
+
+
+
+<p><font size="4">It follows that <i>h</i> =&nbsp; 
+<img border="0" src="./Heap Sort_files/floorL.gif" width="13" height="23" align="middle"></font><font size="5">lg<i>n</i></font><font size="4"><img border="0" src="./Heap Sort_files/floorR.gif" width="11" height="23" align="middle"></font><font size="4" face="Symbol">.</font></p>
+<p>
+
+
+
+</p><p>&nbsp;</p>
+<p><font size="4">We known from above that largest element resides in root, 
+</font><font size="5">A[1]</font><font size="4">. The natural 
+question to ask is where in a heap might the smallest element resides? Consider any 
+path from root of the tree to a leaf. Because of the heap property, as we follow 
+that path, the elements are either decreasing or staying the same. If it happens 
+to be the case that all elements in the heap are distinct, then the above 
+implies that the smallest is in a leaf of the tree. It could also be that an 
+entire subtree of the heap is the smallest element or indeed that there is only 
+one element in the heap, which in the smallest element, so the smallest element 
+is everywhere. Note that anything below the smallest element must equal the 
+smallest element, so in general, only entire subtrees of the heap can contain 
+the smallest element.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Inserting Element in the Heap</font></h3>
+
+
+
+<p>&nbsp;</p><p><font size="4">Suppose we have a heap as follows</font></p><p align="center">
+<font size="4">
+<img border="0" src="./Heap Sort_files/heap3.gif" width="224" height="180"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Let's suppose we want to add a node with key 15 to the heap. First, we add 
+the node to the tree at the next spot available at the lowest level of the tree. 
+This is to ensure that the tree remains complete.</font></p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap4.gif" width="219" height="184"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Let's suppose we want to add a node with key 15 to the heap. First, we add the 
+node to the tree at the next spot available at the lowest level of the tree. 
+This is to ensure that the tree remains complete.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap5.gif" width="223" height="175"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Now we do the same thing again, comparing the new node to its parent. Since 14 &lt; 
+15, we have to do another swap:</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap6.gif" width="215" height="178"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Now we are done, because 15 
+<img border="0" src="./Heap Sort_files/leq.gif" width="12" height="14">&nbsp; 20.</font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="5" color="#FF00FF">Four basic procedures on heap are</font></p>
+
+
+
+<ol>
+  <li><font size="4"><font color="#FF00FF">Heapify</font>, which runs in </font>
+	<font size="5">O(lg<i> n</i>)</font><font size="4"> time.</font></li>
+  <li><font size="4"><font color="#FF00FF">Build-Heap</font>, which runs in linear time.</font></li>
+  <li><font size="4"><font color="#FF00FF">Heap Sort</font>, which runs in
+	</font><font size="5">O(<i>n </i>lg<i> n</i>)</font><font size="4"> time.</font></li>
+  <li><font size="4"><font color="#FF00FF">Extract-Max</font>, which runs in
+	</font><font size="5">O(lg<i> n</i>)</font><font size="4"> time.</font></li>
+</ol>
+
+
+
+<h3>&nbsp;</h3>
+<h3>&nbsp;</h3>
+<h3><font size="5" color="#CC0000">Maintaining the Heap Property</font></h3>
+
+
+
+<p><font size="4">Heapify is a procedure for manipulating heap data structures. It is given an 
+array </font><font size="5">A</font><font size="4"> and index </font>
+<font size="5"> <i>i</i></font><font size="4"> into the array. The subtree rooted at the 
+children of </font><font size="5">A[<i>i</i>]</font><font size="4"> are heap but node A[<i>i</i>] itself may 
+possibly violate the heap property i.e., </font><font size="5">A[<i>i</i>] &lt; A[2<i>i</i>]</font><font size="4"> 
+or </font><font size="5">A[<i>i</i>] &lt; A[2<i>i </i>+1]</font><font size="4">. The procedure 'Heapify' 
+manipulates the tree rooted at </font><font size="5">A[<i>i</i>]</font><font size="4"> so it becomes a heap. In other 
+words, 'Heapify' is let the value at </font><font size="5">A[<i>i</i>]</font><font size="4"> "<font color="#FF00FF">float down</font>" in a heap so 
+that subtree rooted at index </font><font size="5"> <i>i</i></font><font size="4"> becomes a heap.</font></p>
+<p>&nbsp;</p>
+
+
+
+<h3><font color="#CC0000" size="5">Outline of Procedure Heapify</font></h3>
+
+
+
+<p><font size="4">Heapify picks the largest child key and compare it to the parent key. If 
+parent key is larger than heapify quits, otherwise it swaps the parent key with 
+the largest child key. So that the parent is now becomes larger than its 
+children.</font></p>
+
+
+
+<p><font size="4"><font color="#FF00FF">It is important to note</font> that swap may destroy the heap property of the subtree rooted at the largest child node. If this is the case, Heapify calls 
+itself again using largest child node as the new root.</font></p>
+<p>&nbsp;</p>
+
+
+
+<blockquote>
+	<blockquote>
+		<blockquote>
+			<p><b><font size="5"><font color="#FF00FF">Heapify</font> (<i>A</i>,<i> i</i>)</font></b></p>
+			<ol>
+				<li><i><font size="5">l</font></i><font size="5">
+				<font face="Times New Roman">&#8592; </font>left [<i>i</i>]</font></li>
+				<li><i><font size="5">r</font></i><font size="5">
+				<font face="Times New Roman">&#8592;</font> right [<i>i</i>]</font></li>
+				<li><font size="5">if <i>l</i> &#8804; heap-size [<i>A</i>] and 
+				<i>A</i>[<i>l</i>] &gt; <i>A</i>[<i>i</i>]</font></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp; then largest 
+				<font face="Times New Roman">&#8592;</font> </font><i>
+				<font size="5">l</font></i></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp; else largest 
+				<font face="Times New Roman">&#8592;</font> </font><i>
+				<font size="5">i</font></i></li>
+				<li><font size="5">if <i>r</i> &#8804; heap-size [<i>A</i>] and 
+				<i>A</i>[<i>i</i>] &gt; <i>A</i>[largest]</font></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp; then largest 
+				<font face="Times New Roman">&#8592;</font> </font><i>
+				<font size="5">r</font></i></li>
+				<li><font size="5">if largest </font><i><font size="5">&nbsp;&#8800; i</font></i></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp; then exchange <i>A</i>[<i>i</i>]
+  				<font face="Times New Roman">&#8596;<i> </i></font><i>A</i>[largest]</font></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Heapify (<i>A</i>, largest)</font></li>
+			</ol>
+		</blockquote>
+	</blockquote>
+</blockquote>
+
+
+
+<h3>&nbsp;</h3>
+<p>&nbsp;</p>
+<h3><font color="#CC0000" size="5">Analysis</font></h3>
+
+
+
+<p><font size="4">If we put a value at root that is less than every value in the left and right 
+subtree, then 'Heapify' will be called recursively until leaf is reached. To make 
+recursive calls traverse the longest path to a leaf, choose value that make 'Heapify' 
+always recurse on the left child. It follows the left branch when left child is 
+greater than or equal to the right child, so putting 0 at the root and 1 at all 
+other nodes, for example, will accomplished this task. With such values 'Heapify' 
+will called </font><i><font size="5">h</font></i><font size="4"> times, where
+</font><i><font size="5">h</font></i><font size="4"> is the heap height so its running time will 
+be </font><font size="5">&#952;(<i>h</i>)</font><font size="4"> (since each call does
+</font><font size="4">
+<img border="0" src="./Heap Sort_files/thetaBig.gif" width="15" height="16"></font><font size="5">(1)</font><font size="4"> work), which is
+<img border="0" src="./Heap Sort_files/thetaBig.gif" width="15" height="16"></font><font size="5">(lgn)</font><font size="4">. 
+Since we have a case in which Heapify's running time 
+<img border="0" src="./Heap Sort_files/thetaBig.gif" width="15" height="16"></font><font size="5">(lg n)</font><font size="4">, 
+its worst-case running time is </font><font size="5">&#937;(lgn)</font><font size="4">.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Example of Heapify</font><br>
+&nbsp;</h3>
+
+
+
+<p><font size="4">Suppose we have a complete binary tree somewhere whose subtrees are heaps. In 
+the following complete binary tree, the subtrees of 6 are heaps:</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap7.gif" width="235" height="166"></font></p>
+
+
+
+<p align="center">&nbsp;</p>
+<p align="left"><font size="4">The Heapify procedure alters the heap so that the tree rooted 
+at 6's position is a heap. Here's how it works. First, we look at the root of 
+our tree and its two children.</font></p>
+<p align="center"><font size="4"><br>
+<br>
+<img border="0" src="./Heap Sort_files/heap8.gif" width="106" height="80"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">We then determine which of the three nodes is the greatest. If it is the 
+root, we are done, because we have a heap. If not, we exchange the appropriate 
+child with the root, and continue recursively down the tree. In this case, we 
+exchange 6 and 8, and continue.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center"><font size="4"><img border="0" src="./Heap Sort_files/heap9.gif" width="241" height="172"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Now, 7 is greater than 6, so we exchange them.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center">
+<font size="4">
+<img border="0" src="./Heap Sort_files/heap10.gif" width="241" height="172"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">We are at the bottom of the tree, and can't continue, so we terminate.<br>
+&nbsp;</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Building a Heap</font></h3>
+
+
+
+<p><font size="4">We can use the procedure 'Heapify' in a bottom-up fashion to convert an array
+</font><font size="5">A[1 . . <i>n</i>]</font><font size="4"> into a heap. Since the elements in the subarray
+</font><font size="5">A[</font><font size="4"><img border="0" src="./Heap Sort_files/floorL.gif" width="13" height="23" align="middle"></font><font size="5"><i>n</i>/2</font><font size="4"><img border="0" src="./Heap Sort_files/floorR.gif" width="11" height="23" align="middle"></font><font size="5"><font face="Symbol">
+</font>+1 . . <i>n</i>]</font><font size="4"> are all leaves, the procedure BUILD_HEAP goes through 
+the remaining nodes of the tree and runs 'Heapify' on each one. The bottom-up 
+order of processing node guarantees that the subtree rooted at children are heap 
+before 'Heapify' is run at their parent.</font></p>
+<p>&nbsp;</p>
+<blockquote>
+	<blockquote>
+		<blockquote>
+			<p><b><font size="5"><font color="#FF00FF">BUILD_HEAP</font> (A)</font></b></p>
+			<ol>
+				<li><font size="5">heap-size (<i>A</i>) 
+				<font face="Times New Roman">&#8592; </font>length [<i>A</i>]</font></li>
+				<li><font size="5">For <i>i</i> <font face="Times New Roman">&#8592;&nbsp; 
+				</font>floor(length[<i>A</i>]/2<font face="Symbol">)</font> 
+  down to 1 do</font></li>
+				<li><font size="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Heapify (<i>A, i</i>)</font></li>
+			</ol>
+		</blockquote>
+	</blockquote>
+</blockquote>
+<p>&nbsp;</p>
+<p><font size="4">We can build a heap from an unordered array in 
+<font color="#FF00FF">linear</font> time.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Heap Sort Algorithm</font></h3>
+
+
+
+<p><font size="4">The heap sort combines the best of both merge sort and 
+insertion sort. Like merge sort, the worst case time of heap sort is </font>
+<font size="5">O</font><font size="4">(</font><i><font size="5">n log n</font></i><font size="4">) 
+and like insertion sort, heap sort sorts in-place. The heap sort algorithm starts by using procedure BUILD-HEAP to build a heap 
+on the input array A[1 . . <i>n</i>]. Since the maximum element of the 
+array stored at the root <i>A</i>[1], it can be put into its correct final 
+position by exchanging it with <i>A</i>[<i>n</i>] (the last element in <i>A</i>). 
+If we now discard node n from the heap than the remaining elements can be made 
+into heap. Note that the new element at the root may violate the heap property. 
+All that is needed to restore the heap property.</font></p>
+<p>&nbsp;</p>
+<blockquote>
+	<blockquote>
+		<blockquote>
+			<p><b><font size="5"><font color="#FF00FF">HEAPSORT</font> (A)</font></b></p>
+			<ol>
+				<li><font size="5">BUILD_HEAP (<i>A</i>)</font></li>
+				<li><font size="5">for <i>i</i> <font face="Times New Roman">&#8592; 
+				</font>length (<i>A</i>) down 
+  to 2 do<br>exchange <i>A</i>[1] <font face="Times New Roman">&#8596;<i> </i>
+				</font><i>A</i>[<i>i</i>]<br>heap-size [<i>A</i>] 
+				<font face="Times New Roman">&#8592; </font>heap-size [<i>A</i>] 
+  - 1<br>Heapify (<i>A</i>, 1)</font></li>
+			</ol>
+		</blockquote>
+	</blockquote>
+</blockquote>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">The HEAPSORT procedure takes time </font><font size="5">O(<i>n l</i>g<i> n</i>)</font><font size="4">, since the 
+call to BUILD_HEAP takes time </font><font size="5"> <i>O</i>(<i>n</i>)</font><font size="4"> and each of the
+</font><font size="5"> <i>n </i>-1</font><font size="4"> 
+calls to Heapify takes time </font><font size="5">O(lg<i> n</i>)</font><font size="4">.</font></p>
+<p>&nbsp;</p>
+
+
+
+<p align="center">
+<font size="4">
+<img border="0" src="./Heap Sort_files/heapGraph.gif" width="600" height="399"></font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">Now we show that there are at most</font><font size="5"> <font face="Symbol">é</font><i>n</i>/2<sup><i>h</i>+1</sup><font face="Symbol">ù</font></font><font size="4"> 
+nodes of height </font><font size="5"> <i>h</i></font><font size="4"> in any 
+</font><font size="5"> <i>n</i></font><font size="4">-element heap. We need two observations 
+to show this. The first is&nbsp; that if we consider the set of nodes of height
+</font><font size="5">
+<i>h</i></font><font size="4">, they have the property that the subtree rooted at these nodes are 
+disjoint. In other words, we cannot have two nodes of height </font>
+<font size="5"><i>h</i></font><font size="4"> with one being an 
+ancestor of the other. The second property is that all subtrees are complete 
+binary trees except for one subtree. Let X<i><sub>h</sub></i> be the number of 
+nodes of height h. Since X<sub><i>h</i>-1</sub> o ft hese subtrees are full, 
+they each contain exactly </font><font size="5">2<sup><i>h</i>+1 </sup>-1</font><font size="4"> nodes. One of the height 
+</font><i><font size="5">h</font></i><font size="4"> subtrees may not&nbsp; full, but contain at least 1 node at its lower level and 
+has at least </font><font size="5">2<i><sup>h</sup></i></font><font size="4"> nodes. The exact count is 
+</font><font size="5">1+2+4+ . . . + 2<sup><i>h</i>+1
+</sup>+ 1 = 2<sup><i>h</i></sup></font><font size="4">. The remaining nodes have height strictly more 
+than </font><font size="5"> <i>h</i></font><font size="4">. To connect all subtrees rooted at node of height
+</font><font size="5"> <i>h</i></font><font size="4">., there 
+must be exactly </font><font size="5">X<i><sub>h </sub></i>-1</font><font size="4"> such nodes. The total of nodes is 
+<font color="#FF00FF">at 
+least </font></font></p>
+<p align="center"><font size="5">(X<i><sub>h</sub></i>-1)(2<sup><i>h</i>+1
+</sup>+ 1) + 2<sup><i>h</i></sup> + X<i><sub>h</sub></i>-1 which is at most <i>n</i></font><font size="4">.
+</font></p>
+<p align="center"><font size="5">Simplifying gives</font></p>
+<p align="center"><font size="5">X<i><sub>h</sub></i> &#8804; <i>n</i>/2<sup><i>h</i>+1</sup> 
++ 1/2</font><font size="4">.</font></p>
+
+
+
+<p>&nbsp;</p>
+<p><font size="4">In the conclusion, it is a property of binary trees that the number of nodes 
+at any level is half of the total number of nodes up to that level. The number of 
+leaves in a binary heap is equal to</font><font size="5"> <i>n</i>/2</font><font size="4">, where
+</font><font size="5"> <i>n</i></font><font size="4"> is the total 
+number of nodes in the tree, is even and 
+<img border="0" src="./Heap Sort_files/ceilL.gif" width="12" height="23" align="middle"></font><font size="5"><i>n</i>/2</font><font size="4"><font face="Symbol"><img border="0" src="./Heap Sort_files/ceilR.gif" width="12" height="23" align="middle"></font> 
+when </font><font size="5"> <i>n</i></font><font size="4"> is odd. If these leaves are removed, the number of new leaves will 
+be 
+<img border="0" src="./Heap Sort_files/ceilL.gif" width="12" height="23" align="middle"></font><font size="5">lg<font face="Symbol">(</font><i>n</i>/2/2</font><font size="4"><font face="Symbol"><img border="0" src="./Heap Sort_files/ceilR.gif" width="12" height="23" align="middle"></font> or 
+<img border="0" src="./Heap Sort_files/ceilL.gif" width="12" height="23" align="middle"></font><font size="5">n/4</font><font size="4"><font face="Symbol"><img border="0" src="./Heap Sort_files/ceilR.gif" width="12" height="23" align="middle"></font>. If&nbsp; this 
+process is continued for h levels the number of leaves at that level will be 
+<img border="0" src="./Heap Sort_files/ceilL.gif" width="12" height="23" align="middle"></font><font size="5"><i>n</i>/2<sup><i>h</i>+1</sup></font><font face="Symbol" size="4"><img border="0" src="./Heap Sort_files/ceilR.gif" width="12" height="23" align="middle">.</font></p>
+
+
+
+<h3>&nbsp;</h3>
+<h3><font color="#CC0000" size="5">Implementation</font></h3>
+
+
+
+
+<blockquote>
+  <pre><b><font size="4">void</font></b><font size="4"> heapSort(<b>int</b> numbers[], <b>int</b> array_size)
+{
+  <b>int</b> i, temp;
+
+  <b>for</b> (i = (array_size / 2)-1; i &gt;= 0; i--)
+    siftDown(numbers, i, array_size);
+
+  <b>for</b> (i = array_size-1; i &gt;= 1; i--)
+  {
+    temp = numbers[0];
+    numbers[0] = numbers[i];
+    numbers[i] = temp;
+    siftDown(numbers, 0, i-1);
+  }
+}
+
+
+<b>void</b> siftDown(<b>int</b> numbers[], <b>int</b> root, <b>int</b> bottom)
+{
+  <b>int</b> done, maxChild, temp;
+
+  done = 0;
+  <b>while</b> ((root*2 &lt;= bottom) &amp;&amp; (!done))
+  {
+    <b>if</b> (root*2 == bottom)
+      maxChild = root * 2;
+    <b>else if</b> (numbers[root * 2] &gt; numbers[root * 2 + 1])
+      maxChild = root * 2;
+    <b>else</b>
+      maxChild = root * 2 + 1;
+
+    <b>if</b> (numbers[root] &lt; numbers[maxChild])
+    {
+      temp = numbers[root];
+      numbers[root] = numbers[maxChild];
+      numbers[maxChild] = temp;
+      root = maxChild;
+    }
+    <b>else</b>
+      done = 1;
+  }
+}</font></pre>
+  
+</blockquote>
+
+
+
+<h3>&nbsp;</h3>
+<h3>Links</h3>
+
+<ul>
+
+ <li><font size="+1">
+ <a target="_blank" href="http://www.cs.brockport.edu/cs/java/apps/sorters/heapsort.html">
+ Heap Sort
+ </a></font>
+</li>
+
+ <li><font size="+1">
+ <a target="_blank" href="http://www.cs.brockport.edu/cs/java/apps/sorters/heapsortaniminp.html">
+ Heap Sort (with User Input)</a></font><font size="4"> </font>
+</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>
+
+
+
+<center><font size="4"><img src="./Heap Sort_files/redline.gif" height="2" width="640">
+
+</font>
+
+<p>
+
+<a href="http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/myAlgorithm.htm"> 
+
+<font size="4"> 
+
+<img src="./Heap Sort_files/back.gif" border="0" height="47" width="49"></font></a></p>
+
+
+</center>
+
+
+
+
+
+
+</body></html>
