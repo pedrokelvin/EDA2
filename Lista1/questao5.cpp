@@ -60,16 +60,16 @@ void *postOrder(Tree *node){
 
 int main(){
 
-    Tree *root = (Tree *) malloc(sizeof(Tree));
+    Tree *root = (Tree *) malloc(sizeof(Tree)); //Cria raiz
     root = NULL;
 
     int T, x;
-    cin >> T;
+    cin >> T; //Numero de elementos a serem inseridos na arvore
 
     while(T--)
     {
         cin >> x;
-        root = insertTree(root,x);
+        root = insertTree(root,x); //Insere elementos na arvore
     }
     cout << "Pre Ordem: ";
     preOrder(root);
